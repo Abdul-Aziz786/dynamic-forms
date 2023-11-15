@@ -1,0 +1,42 @@
+<div [ngSwitch]="formData.controlType" class="mb-4 flex flex-col">
+  <label [for]="formData.data.key">{{ formData.data.label }}</label>
+  <select
+    [id]="formData.data.key"
+    class="block focus:outline-none rounded text-gray-600 border border-gray-400 py-1.5 px-3 focus:border-indigo-600 transition duration-500"
+    *ngSwitchCase="'Combo'"
+    [formControl]="control"
+    [ngClass]="{
+      'border-red-500': control.invalid && control.touched && control.dirty,
+      'focus:border-red-500': control.invalid && control.touched && control.dirty,
+    }"
+  >
+    <option value="" hidden disabled>Please select</option>
+    <option [value]="opt.value" *ngFor="let opt of formData.data.options">
+      {{ opt.value }}
+    </option>
+  </select>
+  <input
+    [id]="formData.data.key"
+    [ngClass]="{
+      'border-red-500': control.invalid && control.touched && control.dirty,
+      'focus:border-red-500': control.invalid && control.touched && control.dirty,
+    }"
+    class="block focus:outline-none rounded text-gray-600 border border-gray-400 py-1.5 px-3 focus:border-indigo-400 transition duration-500"
+    [formControl]="control"
+    *ngSwitchDefault
+    [type]="formData.data.type"
+    [placeholder]="formData.data.placeholder ?? ''"
+  />
+  <div *ngIf="control.touched && control.dirty">
+    <p *ngIf="control.errors?.['required']" class="text-red-600">
+      *This field Required
+    </p>
+    <p *ngIf="control.errors?.['maxlength']" class="text-red-600">
+      *{{control.errors?.['maxlength']['requiredLength']}} characters only
+      allowed
+    </p>
+    <p *ngIf="control.errors?.['pattern']" class="text-red-600">
+      *Special characters not allowed
+    </p>
+  </div>
+</div>

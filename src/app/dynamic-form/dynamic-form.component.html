@@ -1,0 +1,18 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <app-input
+    *ngFor="let item of formData"
+    [control]="form.get(item.data.key)! | toFormControl"
+    [formData]="item"
+  ></app-input>
+
+  <button
+    [disabled]="form.invalid"
+    type="submit"
+    class="disabled:bg-indigo-300 text-white bg-indigo-500 py-2 px-3 rounded hover:bg-indigo-700 transition"
+  >
+    Submit
+  </button>
+  <p *ngIf="values !== '' && form.valid" class="whitespace-pre-wrap">
+    {{ values | json }}
+  </p>
+</form>
